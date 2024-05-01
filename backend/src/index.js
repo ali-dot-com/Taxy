@@ -4,8 +4,7 @@ const routes = require('./routes/main.routes');
 
 const app = express();
 const origins = [
-    "http://localhost",
-    "http://localhost:3000",
+    "https://taxy.vercel.app"
 ];
 
 app.use(cors({
