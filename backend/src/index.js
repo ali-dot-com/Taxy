@@ -4,13 +4,19 @@ const routes = require('./routes/main.routes');
 
 const app = express();
 const origins = [
-    "https://taxy.vercel.app"
+    "https://taxy.vercel.app",
+    '*',
 ];
-
 app.use(cors({
     origin: origins,
     credentials: true,
 }));
+
+app.use((req, res, next) => {
+    console.log('Request:', req.method, req.url);
+    console.log('Headers:', req.headers);
+    next();
+});
 
 app.use(express.json({ limit: '5mb' }));
 app.use('/', routes);
