@@ -13,15 +13,10 @@ app.use(cors({
     credentials: true,
 }));
 
-// app.use(bodyParser.json());
-app.use(express.json({ limit: '5mb' })); // Adjust the limit as needed
+app.use(express.json({ limit: '5mb' }));
 app.use('/', routes);
 
-app.get("/check", (req,res) => {
-    res.send("Hello");
-});
-
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5000;  
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
