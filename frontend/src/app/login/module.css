@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+body{
+  /* background-color: #0e1a37 !important; */
+}
+
+.input-field {
+  width: 350px;
+  border: none;
+  background-color: #0e1a37 !important   ;
+}
+
+.headings > h1 {
+  font-size: 5rem;
+  letter-spacing: -3px;
+  background-clip: text;
+  background-image: linear-gradient(to bottom, #fff, #ccc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.hero-input {
+  display: block;
+}
+.bg-video {
+  position: absolute;
+  width: 45%;
+  height: 90%;
+  object-fit: cover;
+}
+
+.login-button {
+  background: linear-gradient(to right, #b435bb, #a95ada);
+}
+
+@media screen and (width > 1000px) {
+  .row {
+    padding: 2em !important;
+  }
+}
+
+@media screen and (width < 1000px) {
+  .bg-video {
+    display: none;
+  }
+
+  .input-field{
+    width: 300px;
+  }
+}
+
+@media screen and (width < 700px) {
+  .input-field {
+    width: 250px;
+  }
+
+  .headings > h1 {
+    font-size: 4rem;
+  }
+}
