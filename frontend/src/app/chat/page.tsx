@@ -19,6 +19,18 @@ export default function Chat() {
     dangerouslyAllowBrowser: true,
   });
 
+  interface ChatMessage {
+    prompt: string;
+    output: string;
+    id: number;
+  }
+
+  interface Chat {
+    title: string;
+    id: number;
+    chat: ChatMessage[];
+  }
+
   async function chatWithGpt(systemPrompt: string, message: string) {
     const completion = await openai.chat.completions.create({
       messages: [
@@ -35,21 +47,7 @@ export default function Chat() {
     console.log(completion.choices[0].message.content);
     return completion.choices[0].message.content;
   }
-
-  const chat = [
-    {
-      title: "Write a script for a training video on how to use a computer",
-      id: 1,
-      chat: [
-        {
-          prompt: "Hi, how are you?",
-          output: "I'm good, thanks for asking!",
-          id: 0,
-        },
-      ],
-    },
-  ];
-
+  const [currentChat, setCurrentChat] = useState<Chat[] | null>(null);
   const temphistory = [
     {
       title:
@@ -70,7 +68,6 @@ export default function Chat() {
     "You are a helpful financial assistant. You will help me give detailed insights and information from the given data that will be provided to you by the user. It will be a w-2 form and you will give great insights and informations extracted from the data. Here is form-data in JSON format:\n";
 
   const [newChat, setNewChat] = useState(true);
-  const [currentChat, setCurrentChat] = useState(chat);
   const [firstPrompt, setFirstPrompt] = useState(0);
   const [prompt, setPrompt] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -92,26 +89,28 @@ export default function Chat() {
         console.log("output: ", gptOutput);
 
         if (!newChat) {
-          const UpdateChat = [...currentChat];
+          const UpdateChat = currentChat ? [...currentChat] : [];
           UpdateChat[0].chat.push({
-            prompt: prompt,
-            output: gptOutput,
-            id: currentChat.length + 1,
+            prompt: prompt ? prompt : "",
+            output: gptOutput ? gptOutput : "",
+            id: currentChat ? currentChat.length + 1 : 0,
           });
           setCurrentChat(UpdateChat);
         } else {
-          let currentChat = {
+          let ongoingChat = {
             title: "Chat",
             id: 0,
             chat: [
               {
-                prompt: prompt,
-                output: gptOutput,
+                prompt: prompt ? prompt : "",
+                output: gptOutput ? gptOutput : "",
                 id: 0,
               },
             ],
           };
-          setCurrentChat([currentChat]);
+          
+          ongoingChat ? setCurrentChat([ongoingChat]) : ""
+          
           setNewChat(false);
           setFirstPrompt(1);
         }
@@ -130,10 +129,6 @@ export default function Chat() {
       e.preventDefault();
       setPrompt("");
       promptInput(prompt);
-      // const sendPrompt = document.getElementById("sendPrompt");
-      // sendPrompt?.click();
-      // console.log(sendPrompt);
-      // console.log(prompt);
     }
   };
 
@@ -160,13 +155,16 @@ export default function Chat() {
       };
 
       const uploadToast = toast.loading("Uploading & Extracting PDF...");
-      const res = await fetch("http://localhost:5000/upload", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestBody),
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_BACKEND}/upload`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestBody),
+        }
+      );
 
       if (!res.ok) {
         throw new Error(await res.text());
@@ -336,7 +334,7 @@ export default function Chat() {
                         overflowX: "visible",
                       }}
                     >
-                      {currentChat.map((item, key) => (
+                      {currentChat?.map((item, key) => (
                         <div
                           style={{ height: "100%", maxHeight: "100%" }}
                           key={item.id.toString()}
@@ -360,34 +358,33 @@ export default function Chat() {
                                       ></i>
                                       {chat.prompt}
                                     </p>
-      
-                                      <p className="history-item px-3">
-                                        <p
-                                          className="raised-icons m-2 p-1 text-light"
-                                          style={{
-                                            background: "transparent",
-                                            borderRadius: "10px",
-                                          }}
+
+                                    <p className="history-item px-3">
+                                      <p
+                                        className="raised-icons m-2 p-1 text-light"
+                                        style={{
+                                          background: "transparent",
+                                          borderRadius: "10px",
+                                        }}
+                                      >
+                                        <Image
+                                          className="me-2"
+                                          src={LogoSmall}
+                                          height={25}
+                                          width={25}
+                                          alt="Logo"
+                                        ></Image>
+                                        <span
+                                          className="fw-bold"
+                                          style={{ fontSize: "0.9rem" }}
                                         >
-                                          <Image
-                                            className="me-2"
-                                            src={LogoSmall}
-                                            height={25}
-                                            width={25}
-                                            alt="Logo"
-                                          ></Image>
-                                          <span
-                                            className="fw-bold"
-                                            style={{ fontSize: "0.9rem" }}
-                                          >
-                                            EchoAI
-                                          </span>
-                                        </p>
-                                        {chat.output}
-                                        <br />
-                                        <br />
+                                          EchoAI
+                                        </span>
                                       </p>
-                                    
+                                      {chat.output}
+                                      <br />
+                                      <br />
+                                    </p>
                                   </div>
                                 );
                               })}
