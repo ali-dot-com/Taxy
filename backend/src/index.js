@@ -3,10 +3,9 @@ const cors = require('cors');
 const routes = require('./routes/main.routes');
 
 const app = express();
-const origins = [
-    "https://taxy.vercel.app",
-    '*',
-];
+
+const origins = ['*'];
+
 app.use(cors({
     origin: origins,
     credentials: true,
