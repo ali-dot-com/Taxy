@@ -4,7 +4,12 @@ const routes = require('./routes/main.routes');
 
 const app = express();
 
-const origins = ['*'];
+const origins = [
+    "https://taxy.vercel.app",
+    "https://taxy.vercel.app/chat",
+    '*',
+];
+
 
 app.use(cors({
     origin: origins,
