@@ -108,9 +108,8 @@ export default function Chat() {
               },
             ],
           };
-          
-          ongoingChat ? setCurrentChat([ongoingChat]) : ""
-          
+
+          ongoingChat ? setCurrentChat([ongoingChat]) : "";
           setNewChat(false);
           setFirstPrompt(1);
         }
@@ -155,18 +154,20 @@ export default function Chat() {
       };
 
       const uploadToast = toast.loading("Uploading & Extracting PDF...");
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_BACKEND}/upload`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(requestBody),
-        }
-      );
+      const res = await fetch("https://taxy-backend.vercel.app/upload", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      });
 
       if (!res.ok) {
+        toast.dismiss(uploadToast);
+        toast.error("Error Uploading PDF :(", {
+          duration: 3000,
+        });
+
         throw new Error(await res.text());
       }
 
@@ -180,6 +181,7 @@ export default function Chat() {
 
       res.json().then((data) => {
         delete data.employee_ssn;
+        delete data.pdf_url;
         let dataStr = JSON.stringify(data);
         let systemPrompt = baseSYSPrompt + dataStr;
         setSysPrompt(systemPrompt);
@@ -378,7 +380,7 @@ export default function Chat() {
                                           className="fw-bold"
                                           style={{ fontSize: "0.9rem" }}
                                         >
-                                          EchoAI
+                                          Taxy
                                         </span>
                                       </p>
                                       {chat.output}
