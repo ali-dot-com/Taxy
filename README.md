@@ -10,10 +10,10 @@ Taxy streamlines tax form data extraction and enables interactive conversations 
 
 
 ## Demo
-Here is a working live demo :  https://taxy.vercel.app/chat
-Step 1: Upload a w-2 pdf by clicking on the "Choose File" Button
-Step 2: Click on the "Attach" button to upload and extract the pdf data from the OCR. You'll get a notification after successfull data extraction.
-Step 3: Enter the prompt and keep chatting about your Forms!
+- Here is a working live demo :  https://taxy.vercel.app/chat
+- Step 1: Upload a w-2 pdf by clicking on the "Choose File" Button
+- Step 2: Click on the "Attach" button to upload and extract the pdf data from the OCR. You'll get a notification after successfull data extraction.
+- Step 3: Enter the prompt and keep chatting about your Forms!
 
 ## Site
 
