@@ -19,8 +19,8 @@ const uploadFile = async (req, res) => {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
-        "CLIENT-ID": "vrf5jj3Sjdizhm1Tlvc2OTfsHY82988xj8UtGre",
-        AUTHORIZATION: "apikey aliali444735:0baac63d78ed4c872b1df33ec47a2e88",
+        "CLIENT-ID": "vrf7f51VoiLC1rHOOUrkHlorIKdXlZxwxXUvx11",
+        AUTHORIZATION: "apikey tinakdhinna:9683b81e0431b404b7d8dc3a807484b2",
       },
     });
     // res.json(response.data);
