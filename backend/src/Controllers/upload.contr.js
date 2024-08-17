@@ -10,6 +10,7 @@ class FileData {
 const uploadFile = async (req, res) => {
   try {
     const fileData = new FileData(req.body.fileDataBase64);
+
     const payload = {
       file_data: fileData.fileDataBase64,
       max_pages_to_process: 1,
@@ -19,12 +20,10 @@ const uploadFile = async (req, res) => {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
-        "CLIENT-ID": "vrf7f51VoiLC1rHOOUrkHlorIKdXlZxwxXUvx11",
-        AUTHORIZATION: "apikey tinakdhinna:9683b81e0431b404b7d8dc3a807484b2",
+        "CLIENT-ID": "vrf0SlTenBtd9WWE0y5DLhn22F7in6KZfSO8rPN",
+        AUTHORIZATION: "apikey tinakdhinna:983b3403d099bbcce090b41fbe7d8c02",
       },
     });
-    // res.json(response.data);
-    console.log(response.data)
     return res.json(response.data)
   } catch (error) {
     res.status(500).json({ error: error.message });
